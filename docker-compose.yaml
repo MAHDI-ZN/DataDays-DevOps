@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  myimapi:
+    image: myimage
+    ports:
+      - "80:80"
+  redis:
+    image: "redis"
+
