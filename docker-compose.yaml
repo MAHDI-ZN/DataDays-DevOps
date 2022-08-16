@@ -1,9 +1,11 @@
 version: "3.3"
 services:
-  myimapi:
-    image: myimage
+  mp:
+    image: "poo"
     ports:
       - "80:80"
-  redis:
+  myred:
     image: "redis"
+    ports:
+      -  "6000:6379"
 
