@@ -13,9 +13,25 @@ class Person(BaseModel):
     lastName: str
 
 
-DefaultNameSet = pickle.loads(redis_client.get('dictionary'))
+if redis_client.get('dictionary') is None:
+    DefaultNameSet = {
+        1: {
+            "name": "John",
+            "lastName": "Wick"
+        },
+        2: {
+            "name": "John",
+            "lastName": "Snow"
+        },
+        3: {
+            "name": "Walter",
+            "lastName": "White"
+        }
+    }
+else:
+    DefaultNameSet = pickle.loads(redis_client.get('dictionary'))
 
-print(DefaultNameSet[1])
+
 @app.get("/ExtractPerson/{id}")
 def extract_full_name_via_id(
         id: int = Path(None, description="Enter the id of person you want his name:", ge=1, le=10)):

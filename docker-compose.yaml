@@ -9,7 +9,7 @@ services:
     ports:
       -  "6000:6379"
     volumes:
-      -  data_vol:/app
+      -  data_vol:/data
+      - /home/mohammadi/a/redis.conf:/usr/local/etc/redis/redis.conf
 volumes:
   data_vol:
-    driver: local
