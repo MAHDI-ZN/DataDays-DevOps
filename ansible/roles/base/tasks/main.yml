@@ -1,0 +1,26 @@
+- name: copy edited config file
+  template:
+    src: cassandra_config.yaml.j2
+    dest: /etc/cassandra/cassandra.yaml
+    group: root
+    owner: root
+    mode: 0644
+
+- name: copy edited firewall file
+  template:
+    src: firewall_config.yaml.j2
+    dest: /etc/iptables/rules.v4
+    group: root
+    owner: root
+    mode: 0644
+
+- name: restart firewall
+  become: yes
+  service:
+    name: netfilter-persistent
+    state: restarted
+
+- name: restart cassandra
+  service:
+    name: cassandra
+    state: restarted

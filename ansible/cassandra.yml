@@ -1,0 +1,34 @@
+---
+
+- hosts: cassandra_nodes
+  become: true
+  pre_tasks:
+  - name: update repo
+    apt:
+      update_cache: yes
+  - name: install cassandra requirements
+    apt:
+      name: openjdk-8-jre-headless
+  - name: install cassandra
+    apt:
+      name: cassandra
+      state: latest
+  - name: enable cassandra
+    service:
+      name: cassandra
+      enabled: yes
+  - name: stop cassandra
+    service:
+      name: cassandra
+      state: stopped
+  - name: Collect files/directories names
+    shell: ls -1 /var/lib/cassandra/data/system/
+    register: files_names
+  - name: Remove Cassandra default configuration
+    file: 
+      path: /var/lib/cassandra/data/system/{{ item }}
+      state: absent
+    with_items: "{{ files_names.stdout_lines }}"
+    when: files_names.stdout_lines is defined
+  roles:
+  - base
